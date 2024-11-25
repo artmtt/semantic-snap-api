@@ -9,7 +9,7 @@ Activate the venv:
 
 On Windows: `.venv\Scripts\activate`
 
-On Linux: `.venv/bin/activate`
+On Linux: `source .venv/bin/activate`
 
 Install dependencies: `pip install -r requirements.txt`
 
