@@ -7,7 +7,7 @@ Create a venv first: `python -m venv ./.venv/`
 
 Activate the venv:
 
-On Windows: `.venv\Scripts\activate`
+On Windows: `.\.venv\Scripts\activate`
 
 On Linux: `source .venv/bin/activate`
 
