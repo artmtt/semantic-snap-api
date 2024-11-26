@@ -42,10 +42,7 @@ async def search_image(value: int, db_conn = Depends(get_db_conn)):
         if img_data is None:
             raise HTTPException(status_code=404, detail='The image was not found')
 
-        return {
-            'title': img_data.title,
-            'url': img_data.url
-        }
+        return img_data
     
     except HTTPException as http_exc:
         raise http_exc

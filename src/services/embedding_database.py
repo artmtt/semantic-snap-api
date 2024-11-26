@@ -1,6 +1,6 @@
 from typing import List
 import psycopg2
-from src.models.image import ImageData
+from src.models.image import ImageData, BasicImageData
 from src.utils.embedding import generate_embeddings
 
 def similarity_image_search(query_text: str, limit: int, db_conn: psycopg2.extensions.connection) -> List[ImageData]:
@@ -29,7 +29,7 @@ def similarity_image_search(query_text: str, limit: int, db_conn: psycopg2.exten
         cursor.close()
 
 
-def get_image_by_id(id: int, db_conn: psycopg2.extensions.connection) -> ImageData:
+def get_image_by_id(id: int, db_conn: psycopg2.extensions.connection) -> BasicImageData:
     cursor = db_conn.cursor()
 
     try:
@@ -46,7 +46,7 @@ def get_image_by_id(id: int, db_conn: psycopg2.extensions.connection) -> ImageDa
         if row is None:
             return None
 
-        return ImageData(id, row[1], row[2])
+        return BasicImageData(row[1], row[2])
 
     except Exception as e:
         print(f'Error in image search by ID: {str(e)}')
