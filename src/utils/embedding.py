@@ -29,4 +29,4 @@ def generate_embeddings(text: str, metadata = {}):
     # embeddings = average_pool(outputs.last_hidden_state, attention_mask)
 
     embeddings = F.normalize(outputs, p=2, dim=1)
-    return embeddings.numpy().tolist()[0]
+    return json.dumps(embeddings.numpy().tolist()[0])

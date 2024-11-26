@@ -9,7 +9,7 @@ def similarity_image_search(query_text: str, limit: int, db_conn: psycopg2.exten
 
     try:
         cursor.execute(
-            """SELECT im.id, im.text, im.url, 1 - (em.embedding <=> CAST(%s AS real[])) AS cos_similarity
+            """SELECT im.id, im.text, im.url, 1 - (em.embedding <=> %s) AS cos_similarity
             FROM images im
             INNER JOIN embeddings em ON im.id = em.image_id 
             ORDER BY cos_similarity DESC
