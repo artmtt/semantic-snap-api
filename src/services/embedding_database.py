@@ -19,7 +19,7 @@ def similarity_image_search(query_text: str, limit: int, db_conn: psycopg2.exten
         )
 
         # Yield instead of waiting?
-        imgs = [ImageData(row[0], row[1], row[2]) for row in cursor.fetchall()]
+        imgs = [ImageData(id=row[0], title=row[1], url=row[2]) for row in cursor.fetchall()]
         return imgs
 
     except Exception as e:
@@ -46,7 +46,7 @@ def get_image_by_id(id: int, db_conn: psycopg2.extensions.connection) -> BasicIm
         if row is None:
             return None
 
-        return BasicImageData(row[1], row[2])
+        return BasicImageData(title=row[1], url=row[2])
 
     except Exception as e:
         print(f'Error in image search by ID: {str(e)}')
@@ -69,7 +69,7 @@ def get_random_images(limit: int, db_conn: psycopg2.extensions.connection) -> Li
             (limit,)
         )
 
-        imgs = [ImageData(row[0], row[1], row[2]) for row in cursor.fetchall()]
+        imgs = [ImageData(id=row[0], title=row[1], url=row[2]) for row in cursor.fetchall()]
         return imgs
 
     except Exception as e:
