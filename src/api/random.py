@@ -14,7 +14,12 @@ async def search_images(limit: int = 1, db_conn = Depends(get_db_conn)):
         raise HTTPException(status_code=400, detail='Parameter limit is not valid')
     
     try:
-        return get_random_images(limit, db_conn)
+        images = get_random_images(limit, db_conn)
+
+        if len(images) == 0:
+            return HTTPException(status_code=404, detail='No images were found')
+
+        return images
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

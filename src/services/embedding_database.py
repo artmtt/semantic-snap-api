@@ -41,7 +41,11 @@ def get_image_by_id(id: int, db_conn: psycopg2.extensions.connection) -> ImageDa
             (id,)
         )
 
-        row = cursor.fetchall()
+        row = cursor.fetchone()
+
+        if row is not None:
+            return None
+
         return ImageData(id, row[1], row[2])
 
     except Exception as e:

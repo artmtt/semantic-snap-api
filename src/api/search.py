@@ -17,7 +17,12 @@ async def search_images(query_text: str, limit: int = 1, db_conn = Depends(get_d
         raise HTTPException(status_code=400, detail='Parameter limit is not valid')
 
     try:
-        return similarity_image_search(query_text, limit, db_conn)
+        images = similarity_image_search(query_text, limit, db_conn)
+
+        if len(images) == 0:
+            return HTTPException(status_code=404, detail='No images were found')
+
+        return images
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -30,7 +35,11 @@ async def search_image(value: int, db_conn = Depends(get_db_conn)):
 
     try:
         img_data = get_image_by_id(value, db_conn)
-        return {    
+
+        if img_data is None:
+            return HTTPException(status_code=404, detail='The image was not found')
+
+        return {
             'title': img_data.title,
             'url': img_data.url
         }
