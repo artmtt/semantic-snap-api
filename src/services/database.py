@@ -9,7 +9,7 @@ def generate_db_conn():
             user=os.getenv('EMBEDDING_DB_USER'),
             password=os.getenv('EMBEDDING_DB_PASSWORD'),
             host=os.getenv('EMBEDDING_DB_HOST'),
-            port=os.getenv('EMBEDDING_DB_PORT'),  # Port exposed in docker-compose.yml
+            port=os.getenv('EMBEDDING_DB_PORT'),
             database=os.getenv('EMBEDDING_DB_NAME')
         )
         return db_conn

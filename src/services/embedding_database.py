@@ -3,15 +3,15 @@ import psycopg2
 from src.models.image import ImageData
 from src.utils.embedding import generate_embeddings
 
-# TODO: Change to real table and column names
 def similarity_image_search(query_text: str, limit: int, db_conn: psycopg2.extensions.connection) -> List[ImageData]:
     cursor = db_conn.cursor()
     query_embedding = generate_embeddings(query_text)
 
     try:
         cursor.execute(
-            """SELECT id, title, url, 1 - (embedding <=> %s) AS cos_similarity
-            FROM images
+            """SELECT im.id, im.text, im.url, 1 - (em.embedding <=> %s) AS cos_similarity
+            FROM images im
+            INNER JOIN embeddings em ON im.id = em.image_id 
             ORDER BY cos_similarity DESC
             LIMIT %s;
             """,
@@ -34,7 +34,7 @@ def get_image_by_id(id: int, db_conn: psycopg2.extensions.connection) -> ImageDa
 
     try:
         cursor.execute(
-            """SELECT id, title, url
+            """SELECT id, text, url
             FROM images
             WHERE id = %s;
             """,
@@ -57,9 +57,9 @@ def get_random_images(limit: int, db_conn: psycopg2.extensions.connection) -> Li
     try:
         # Get a 10% sample of the table
         cursor.execute(
-            """SELECT id, title, url
+            """SELECT id, text, url
             FROM images
-            TAMBLESAMPLE SYSTEM(10)
+            TABLESAMPLE SYSTEM(15)
             LIMIT %s;
             """,
             (limit,)
