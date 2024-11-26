@@ -4,3 +4,7 @@ class ImageData(BaseModel):
     id: int
     title: str
     url: str
+
+class BasicImageData(BaseModel):
+    title: str
+    url: str
