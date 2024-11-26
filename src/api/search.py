@@ -20,7 +20,7 @@ async def search_images(query_text: str, limit: int = 1, db_conn = Depends(get_d
         images = similarity_image_search(query_text, limit, db_conn)
 
         if len(images) == 0:
-            return HTTPException(status_code=404, detail='No images were found')
+            raise HTTPException(status_code=404, detail='No images were found')
 
         return images
 
@@ -37,7 +37,7 @@ async def search_image(value: int, db_conn = Depends(get_db_conn)):
         img_data = get_image_by_id(value, db_conn)
 
         if img_data is None:
-            return HTTPException(status_code=404, detail='The image was not found')
+            raise HTTPException(status_code=404, detail='The image was not found')
 
         return {
             'title': img_data.title,

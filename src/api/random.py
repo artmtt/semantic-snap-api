@@ -17,7 +17,7 @@ async def search_images(limit: int = 1, db_conn = Depends(get_db_conn)):
         images = get_random_images(limit, db_conn)
 
         if len(images) == 0:
-            return HTTPException(status_code=404, detail='No images were found')
+            raise HTTPException(status_code=404, detail='No images were found')
 
         return images
     
