@@ -21,5 +21,8 @@ async def search_images(limit: int = 1, db_conn = Depends(get_db_conn)):
 
         return images
     
+    except HTTPException as http_exc:
+        raise http_exc
+    
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

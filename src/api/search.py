@@ -23,6 +23,9 @@ async def search_images(query_text: str, limit: int = 1, db_conn = Depends(get_d
             raise HTTPException(status_code=404, detail='No images were found')
 
         return images
+    
+    except HTTPException as http_exc:
+        raise http_exc
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -43,6 +46,9 @@ async def search_image(value: int, db_conn = Depends(get_db_conn)):
             'title': img_data.title,
             'url': img_data.url
         }
-        
+    
+    except HTTPException as http_exc:
+        raise http_exc
+     
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
